@@ -69,6 +69,50 @@ public class Converter {
             
             // INSERT YOUR CODE HERE
             
+            //Object Initialization
+            JSONObject csvNowJson = new JSONObject(); 
+            //Array Initialization
+            JSONArray colHeaders = new JSONArray(); 
+            JSONArray rowHeaders = new JSONArray(); 
+            JSONArray data = new JSONArray();
+            //Other Initializers
+            String[] items;
+            String jsonString = "";
+            //Constants
+            final int NUMBER_OF_HEADERS = 5;
+            
+            
+            while (iterator.hasNext()) { 
+                
+                items = (iterator.next()); 
+                
+                }
+            
+            // Add Colum Headers
+
+            for (int i = 0; i < NUMBER_OF_HEADERS; ++i) { 
+                    
+                    colHeaders.add(items[i]);
+                           
+            }
+            csvNowJson.put("colheaders", colHeaders);
+            
+            // Row Headers
+            
+            for (int i = NUMBER_OF_HEADERS; i < (items.length / 5) - 1 ; ++i){
+                
+                if (i % 5 == 0) {
+                    
+                    rowHeaders.add(items[i]);
+                }  
+            }
+            csvNowJson.put("rowheaders", rowHeaders);
+            for (int i = 0; i < rowHeaders.size(); ++i) {
+                
+                System.out.println(rowHeaders.get(i));
+                
+            }
+            
         }        
         catch(Exception e) { return e.toString(); }
         
