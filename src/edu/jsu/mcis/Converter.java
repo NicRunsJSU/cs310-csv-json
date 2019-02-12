@@ -75,45 +75,66 @@ public class Converter {
             JSONArray colHeaders = new JSONArray(); 
             JSONArray rowHeaders = new JSONArray(); 
             JSONArray data = new JSONArray();
-            //Other Initializers
             String[] items;
+            
+                    
+            
+            //Other Initializers
+           
             String jsonString = "";
+            int itemCounter = 0;
             //Constants
             final int NUMBER_OF_HEADERS = 5;
             
             
-            while (iterator.hasNext()) { 
+            while (iterator.hasNext()) {
+                                
+                items = (iterator.next());
                 
-                items = (iterator.next()); 
+                    // Col Headers
                 
+                    
+                    if (itemCounter < 1) {
+                        
+                        for (int i = 0; i < items.length; ++i){
+
+                        colHeaders.add(items[i]);
+                        
+                        }
+                    }
+
+                    else {
+
+                        rowHeaders.add(items[0]);
+                        
+                        ArrayList<Integer> listOfData = new ArrayList();
+                        
+                        for (int q = 1; q < items.length; ++q) {
+                                                        
+                            listOfData.add(Integer.parseInt(items[q]));
+                            
+                            data.add(listOfData);
+                            
+                        }
+
+                    }
+
+                    // Data
+                    
+                
+        
+                //Increment items every loop
+                ++itemCounter;
+               
                 }
             
-            // Add Colum Headers
-
-            for (int i = 0; i < NUMBER_OF_HEADERS; ++i) { 
-                    
-                    colHeaders.add(items[i]);
-                           
-            }
-            csvNowJson.put("colheaders", colHeaders);
-            
-            // Row Headers
-            
-            for (int i = NUMBER_OF_HEADERS; i < (items.length / 5) - 1 ; ++i){
+                csvNowJson.put("rowHeaders", rowHeaders);
+                csvNowJson.put("colHeaders", colHeaders);
+                csvNowJson.put("data", data);
                 
-                if (i % 5 == 0) {
-                    
-                    rowHeaders.add(items[i]);
-                }  
-            }
-            csvNowJson.put("rowheaders", rowHeaders);
-            for (int i = 0; i < rowHeaders.size(); ++i) {
-                
-                System.out.println(rowHeaders.get(i));
-                
-            }
-            
-        }        
+                results = JSONValue.toJSONString(csvNowJson);
+        }  
+        
         catch(Exception e) { return e.toString(); }
         
         return results.trim();
