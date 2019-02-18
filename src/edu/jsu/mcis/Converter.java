@@ -77,6 +77,7 @@ public class Converter {
             JSONArray data = new JSONArray();
             String[] items;
             
+            
                     
             
             //Other Initializers
@@ -112,10 +113,9 @@ public class Converter {
                         for (int q = 1; q < items.length; ++q) {
                                                         
                             listOfData.add(Integer.parseInt(items[q]));
-                            
-                            data.add(listOfData);
-                            
+                              
                         }
+                        data.add(listOfData);
 
                     }
 
@@ -146,12 +146,72 @@ public class Converter {
         String results = "";
         
         try {
-
+            
             StringWriter writer = new StringWriter();
             CSVWriter csvWriter = new CSVWriter(writer, ',', '"', '\n');
             
+            
+            
             // INSERT YOUR CODE HERE
             
+            /*  Attemptimng to Iterate through the String and seperate everything
+                into Arrays
+            */
+            //Seperating into colHeaders
+            
+            final int NUM_PER_ARRAY = 5;
+            JSONObject obj;
+            
+            JSONArray arr;
+            JSONArray arrData;
+            JSONArray arrRow;
+            
+            String[] stuff = new String[5];
+            String[] colHeaders = new String[5];
+            String[] data = new String[5];
+            String[] transfer = new String[4];
+           
+            
+            
+            JSONParser parser = new JSONParser();
+            obj = (JSONObject) parser.parse(jsonString);
+            
+            //Attempt to populate String with colHeaders
+            
+            arr = (JSONArray) obj.get("colHeaders");
+            arrData = (JSONArray) obj.get("data");
+            arrRow = (JSONArray) obj.get("rowHeaders");
+            
+            //System.out.println(arr);
+            
+            for (int i = 0; i < NUM_PER_ARRAY; ++i) {
+                
+                colHeaders[i] = arr.get(i).toString();
+            }
+            //System.out.println(Arrays.toString(colHeaders));
+            
+            String csvString = colHeaders.toString();
+            
+            // Attempt to Populate String With rowHeader and data
+            
+            for (int i = 0; i < NUM_PER_ARRAY; ++i) {
+                
+                if ( i == 0) {
+                    
+                    stuff[i] = arrRow.get(i).toString();
+                }
+                else {
+                    
+                    for (int q = 0; q < 4; ++q) {
+                        
+                        transfer[q] =  arrData.get(i).toString();  
+                        System.out.print(Arrays.toString(transfer));
+                        stuff[i] = transfer[q];
+                    }
+                    
+                } 
+            }
+            //System.out.println(Arrays.toString(stuff));
         }
         
         catch(Exception e) { return e.toString(); }
